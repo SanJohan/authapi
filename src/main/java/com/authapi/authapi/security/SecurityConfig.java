@@ -14,6 +14,7 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 @Configuration
 @EnableWebSecurity
@@ -21,9 +22,13 @@ import org.springframework.security.web.SecurityFilterChain;
 public class SecurityConfig {
 
     private CustomUserDetailsService customUserDetailsService;
+    private final JwtAuthenticationFilter jwtAuthenticationFilter;
+    private final  JwtAuthenticationEntryPoint unauthorizedHandler;
 
-    public SecurityConfig(CustomUserDetailsService customUserDetailsService){
+    public SecurityConfig(CustomUserDetailsService customUserDetailsService, JwtAuthenticationFilter jwtAuthenticationFilter, JwtAuthenticationEntryPoint unauthorizedHandler){
         this.customUserDetailsService = customUserDetailsService;
+        this.jwtAuthenticationFilter = jwtAuthenticationFilter;
+        this.unauthorizedHandler = unauthorizedHandler;
     }
 
     @Bean
@@ -32,6 +37,9 @@ public class SecurityConfig {
         http
                 // Deshabilitamos CSRF porque usaremos tokens JWT, no cookies
                 .csrf(csrf -> csrf.disable())
+                .exceptionHandling(exception -> exception.authenticationEntryPoint(
+                        unauthorizedHandler
+                ))
 
                 // No queremos sesiones de usuario en el servidor (STATELESS)
                 .sessionManagement(session -> session
@@ -41,11 +49,13 @@ public class SecurityConfig {
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/prueba", "/swagger-ui/**", "/v3/api-docs/**").permitAll() //publicas
                         .anyRequest().authenticated() //el resto requiere login
-                ).httpBasic(Customizer.withDefaults());
+                );//httpBasic(Customizer.withDefaults());
 //                // Permitimos que la consola H2 funcione en un iframe
 //                .headers(headers -> headers
 //                        .frameOptions(frame -> frame.sameOrigin())
 //                );
+        http.addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
+
         return http.build();
     }
 

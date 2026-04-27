@@ -13,4 +13,9 @@ public class PruebaController {
         return "Hola mundo";
     }
 
+    @GetMapping("/dos")
+    public String privado() {
+        return "Acceso concedido a /prueba/dos con token válido";
+    }
+
 }
