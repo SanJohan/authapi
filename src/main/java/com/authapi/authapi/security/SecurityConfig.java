@@ -47,7 +47,7 @@ public class SecurityConfig {
                 )
                 // Configuramos qué rutas necesitan autenticación
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/prueba", "/swagger-ui/**", "/v3/api-docs/**").permitAll() //publicas
+                        .requestMatchers("/prueba", "/swagger-ui/**", "/v3/api-docs/**", "/api/auth/**").permitAll() //publicas
                         .anyRequest().authenticated() //el resto requiere login
                 );//httpBasic(Customizer.withDefaults());
 //                // Permitimos que la consola H2 funcione en un iframe
