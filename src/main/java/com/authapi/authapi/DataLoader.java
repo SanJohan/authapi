@@ -31,15 +31,15 @@ public class DataLoader implements CommandLineRunner {
     public void run(String... args) throws Exception{
 
 
-        if (!userRepository.existsByUsername("admin")) {
-            User admin = new User();
-            admin.setUsername("admin");
-            admin.setEmail("admin@example.com");
-            admin.setPassword(passwordEncoder.encode("admin123"));
-            admin.setRoles(Set.of(Role.ROLE_ADMIN));  // rol administrador
-            userRepository.save(admin);
-            System.out.println("Usuario admin creado");
-        }
+//        if (!userRepository.existsByUsername("admin")) {
+//            User admin = new User();
+//            admin.setUsername("admin");
+//            admin.setEmail("admin@example.com");
+//            admin.setPassword(passwordEncoder.encode("admin123"));
+//            admin.setRoles(Set.of(Role.ROLE_ADMIN));  // rol administrador
+//            userRepository.save(admin);
+//            System.out.println("Usuario admin creado");
+//        }
 
 //        if (!userRepository.existsByUsername("juan")){
 //            User user = new User();
