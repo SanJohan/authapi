@@ -3,7 +3,7 @@ package com.authapi.authapi.service;
 import com.authapi.authapi.dto.RegisterRequestDTO;
 import com.authapi.authapi.dto.UserResponseDTO;
 import com.authapi.authapi.exception.UserAlreadyExistsException;
-import com.authapi.authapi.model.Role;
+import com.authapi.authapi.model.RoleEnum;
 import com.authapi.authapi.model.User;
 import com.authapi.authapi.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
@@ -34,11 +34,11 @@ public class UserServiceImpl implements UserService {
         user.setUsername(request.getUsername());
         user.setEmail(request.getEmail());
         user.setPassword(passwordEncoder.encode(request.getPassword()));
-        user.setRoles(Set.of(Role.ROLE_USER));
+        user.setRoleEnums(Set.of(RoleEnum.ROLE_USER));
 
         User saved = userRepository.save(user);
 
-        return new UserResponseDTO(saved.getId(), saved.getUsername(), saved.getEmail(), saved.getRoles());
+        return new UserResponseDTO(saved.getId(), saved.getUsername(), saved.getEmail(), saved.getRoleEnums());
     }
 
     @Override

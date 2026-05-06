@@ -1,6 +1,6 @@
 package com.authapi.authapi.dto;
 
-import com.authapi.authapi.model.Role;
+import com.authapi.authapi.model.RoleEnum;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -15,5 +15,5 @@ public class UserResponseDTO {
     private Long id;
     private String username;
     private String email;
-    private Set<Role> roles;
+    private Set<RoleEnum> roleEnums;
 }

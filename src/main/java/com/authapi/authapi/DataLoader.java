@@ -1,16 +1,11 @@
 package com.authapi.authapi;
 
-import com.authapi.authapi.model.Role;
-import com.authapi.authapi.model.User;
 import com.authapi.authapi.repository.UserRepository;
 import com.authapi.authapi.service.CustomUserDetailsService;
 import com.authapi.authapi.service.JwtService;
 import org.springframework.boot.CommandLineRunner;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
-
-import java.util.Set;
 
 @Component
 public class DataLoader implements CommandLineRunner {
@@ -36,7 +31,7 @@ public class DataLoader implements CommandLineRunner {
 //            admin.setUsername("admin");
 //            admin.setEmail("admin@example.com");
 //            admin.setPassword(passwordEncoder.encode("admin123"));
-//            admin.setRoles(Set.of(Role.ROLE_ADMIN));  // rol administrador
+//            admin.setRoleEnums(Set.of(RoleEnum.ROLE_ADMIN));  // rol administrador
 //            userRepository.save(admin);
 //            System.out.println("Usuario admin creado");
 //        }
@@ -46,7 +41,7 @@ public class DataLoader implements CommandLineRunner {
 //            user.setUsername("juan");
 //            user.setEmail("juan@example.com");
 //            user.setPassword(passwordEncoder.encode("123456")); // ¡encriptada!
-//            user.setRoles(Set.of(Role.ROLE_USER));
+//            user.setRoleEnums(Set.of(RoleEnum.ROLE_USER));
 //            userRepository.save(user);
 //            System.out.println("Usuario juan guardado con contraseña encriptada");
 //        }
@@ -71,13 +66,13 @@ public class DataLoader implements CommandLineRunner {
 ////        user.setUsername("Johan");
 ////        user.setEmail("johan@gmail.com");
 ////        user.setPassword("1234");
-////        user.setRoles(Set.of(Role.ROLE_USER));
+////        user.setRoleEnums(Set.of(RoleEnum.ROLE_USER));
 //
 //        // Guardar en la base de datos
 //
 //        // Comprobar que se puede recuperar
 //        userRepository.findByUsername("juan").ifPresent(u ->
-//                System.out.println("Usuario recuperado: " + u.getUsername() + " - Roles: " + u.getRoles())
+//                System.out.println("Usuario recuperado: " + u.getUsername() + " - Roles: " + u.getRoleEnums())
 //        );
     }
 }
