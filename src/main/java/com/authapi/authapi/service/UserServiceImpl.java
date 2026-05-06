@@ -46,7 +46,6 @@ public class UserServiceImpl implements UserService {
         User saved = userRepository.save(user);
 
         Set<String> roleNames = saved.getRoles().stream().map(Role::getName).collect(Collectors.toSet());
-
         return new UserResponseDTO(saved.getId(), saved.getUsername(), saved.getEmail(), roleNames);
     }
 
