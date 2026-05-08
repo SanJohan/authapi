@@ -1,11 +1,16 @@
 package com.authapi.authapi;
 
+import com.authapi.authapi.model.Role;
+import com.authapi.authapi.model.User;
+import com.authapi.authapi.repository.RoleRepository;
 import com.authapi.authapi.repository.UserRepository;
 import com.authapi.authapi.service.CustomUserDetailsService;
 import com.authapi.authapi.service.JwtService;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
+
+import java.util.Set;
 
 @Component
 public class DataLoader implements CommandLineRunner {
@@ -14,17 +19,34 @@ public class DataLoader implements CommandLineRunner {
     private final PasswordEncoder passwordEncoder;
     private final JwtService jwtService;
     private final CustomUserDetailsService userDetailsService;
+    private final RoleRepository roleRepository;
 
-    public DataLoader(UserRepository userRepository, PasswordEncoder passwordEncoder, JwtService jwtService, CustomUserDetailsService userDetailsService){
+    public DataLoader(UserRepository userRepository, PasswordEncoder passwordEncoder, JwtService jwtService,
+                      CustomUserDetailsService userDetailsService, RoleRepository roleRepository){
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
         this.jwtService = jwtService;
         this.userDetailsService = userDetailsService;
+        this.roleRepository = roleRepository;
     }
 
     @Override
     public void run(String... args) throws Exception{
+        if (roleRepository.count() == 0) {
+            roleRepository.save(new Role(null, "ROLE_USER"));
+            roleRepository.save(new Role(null, "ROLE_ADMIN"));
+        }
 
+        // Crear usuario admin si no existe
+        if (!userRepository.existsByUsername("admindos")) {
+            Role adminRole = roleRepository.findByName("ROLE_ADMIN").orElseThrow();
+            User admin = new User();
+            admin.setUsername("admindos");
+            admin.setEmail("admindos@example.com");
+            admin.setPassword(passwordEncoder.encode("admin123"));
+            admin.setRoles(Set.of(adminRole));
+            userRepository.save(admin);
+        }
 
 //        if (!userRepository.existsByUsername("admin")) {
 //            User admin = new User();
